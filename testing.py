@@ -19,6 +19,7 @@ df = pd.DataFrame(data)
 
 # Initialize Dash app
 app = dash.Dash(__name__)
+server = app.server
 
 app.layout = html.Div([
     dcc.Dropdown(
