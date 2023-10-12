@@ -70,7 +70,7 @@ def update_map(selected_value):
                                     hover_data=['Population', 'Growth Rate', 'Median Individual Income'],
                                     title=f'Cities in the Dallas Region by {selected_value.title()}',
                                     mapbox_style="open-street-map",
-                                    color_continuous_scale='Viridis',
+                                    color_continuous_scale='Rainbow',
                                     size_max=50,
                                     zoom=8,
                                     center={"lat": 32.7767, "lon": -96.7970})
