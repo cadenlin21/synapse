@@ -7,15 +7,15 @@ import pandas as pd
 import dash_bootstrap_components as dbc
 
 # Sample data
-data = {
-    'City': ['Dallas', 'Plano', 'Irving', 'Arlington', 'Frisco'],
-    'latitude': [32.7767, 33.0198, 32.8140, 32.7357, 33.1507],
-    'longitude': [-96.7970, -96.6989, -96.9553, -97.1081, -96.8236],
-    'population': [1343573, 288539, 240373, 398854, 200490],
-    'growth rate': [1.1, 2.3, 1.7, 1.4, 3.8],
-    'median income': [55047, 92266, 60458, 57432, 130464]
-}
-
+# data = {
+#     'City': ['Dallas', 'Plano', 'Irving', 'Arlington', 'Frisco'],
+#     'latitude': [32.7767, 33.0198, 32.8140, 32.7357, 33.1507],
+#     'longitude': [-96.7970, -96.6989, -96.9553, -97.1081, -96.8236],
+#     'population': [1343573, 288539, 240373, 398854, 200490],
+#     'growth rate': [1.1, 2.3, 1.7, 1.4, 3.8],
+#     'median income': [55047, 92266, 60458, 57432, 130464]
+# }
+data = pd.read_excel('dallas metro data.xlsx', sheet_name=1)
 df = pd.DataFrame(data)
 
 # Initialize Dash app
@@ -28,11 +28,11 @@ app.layout = dbc.Container([
             dcc.Dropdown(
                 id='dropdown',
                 options=[
-                    {'label': 'Population', 'value': 'population'},
-                    {'label': 'Growth Rate', 'value': 'growth rate'},
-                    {'label': 'Median Income', 'value': 'median income'},
+                    {'label': 'Population', 'value': 'Population'},
+                    {'label': 'Growth Rate', 'value': 'Growth Rate'},
+                    {'label': 'Median Individual Income', 'value': 'Median Individual Income'},
                 ],
-                value='population'  # default value
+                value='Population'  # default value
             )
         ], width={'size': 6, 'offset': 3}, style={'marginTop': 30}),
     ]),
@@ -62,16 +62,16 @@ def update_map(selected_value):
     # Create Map
     try:
         fig_map = px.scatter_mapbox(df,
-                                    lat='latitude',
-                                    lon='longitude',
+                                    lat='Latitude',
+                                    lon='Longitude',
                                     size=selected_value,
                                     color=selected_value,
                                     hover_name='City',
-                                    hover_data=['population', 'growth rate', 'median income'],
+                                    hover_data=['Population', 'Growth Rate', 'Median Individual Income'],
                                     title=f'Cities in the Dallas Region by {selected_value.title()}',
                                     mapbox_style="open-street-map",
                                     color_continuous_scale='Viridis',
-                                    size_max=30,
+                                    size_max=50,
                                     zoom=8,
                                     center={"lat": 32.7767, "lon": -96.7970})
         fig_map.update_layout(
@@ -82,7 +82,7 @@ def update_map(selected_value):
             hovertemplate="<b>%{hovertext}</b><br><br>" +
                           "Population: %{customdata[0]:,.0f}<br>" +
                           "Growth Rate: %{customdata[1]:.2f}%<br>" +
-                          "Median Income: $%{customdata[2]:,.2f}<br>" +
+                          "Median Individual Income: $%{customdata[2]:,.2f}<br>" +
                           "<extra></extra>"
         )
 
@@ -129,7 +129,7 @@ def display_popup(clickData):
         html.H4(city_name),
         html.P(f"Population: {point_data['customdata'][0]:,.0f}"),
         html.P(f"Growth Rate: {point_data['customdata'][1]:.2f}%"),
-        html.P(f"Median Income: ${point_data['customdata'][2]:,.2f}"),
+        html.P(f"Median Individual Income: ${point_data['customdata'][2]:,.2f}"),
         html.A(f"Visit {city_name} Website", href=f"http://{city_name.lower()}.com", target="_blank")
     ]
 
