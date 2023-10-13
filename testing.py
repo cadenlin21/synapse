@@ -15,6 +15,14 @@ import dash_bootstrap_components as dbc
 #     'growth rate': [1.1, 2.3, 1.7, 1.4, 3.8],
 #     'median income': [55047, 92266, 60458, 57432, 130464]
 # }
+websites = {
+    'Fort Worth': 'https://www.fortworthtexas.gov/departments/development-services/infrastructure',
+    'Dallas': 'https://dallascityhall.com/departments/transportation/Pages/default.aspx',
+    'McKinney': 'https://www.mckinneytexas.org/3339/Infrastructure',
+    'Frisco': 'https://www.friscotexas.gov/423/Capital-Improvement-Projects',
+    'Plano': 'https://www.plano.gov/425/Traffic-Transportation'
+}
+
 data = pd.read_excel('dallas metro data.xlsx', sheet_name=1)
 df = pd.DataFrame(data)
 
@@ -137,7 +145,7 @@ def display_popup(clickData):
         html.P(f"Median Individual Income: ${point_data['customdata'][2]:,.0f}"),
         html.P(f"Signalized Intersections: {point_data['customdata'][3]:,.0f}"),
         html.P(f"Annual Traffic Spending: ${point_data['customdata'][4]:,.0f}"),
-        html.A(f"Visit {city_name} Website", href=f"http://{city_name.lower()}.com", target="_blank")
+        html.A(f"Visit {city_name} Website", href=websites[city_name], target="_blank")
     ]
 
     return content
