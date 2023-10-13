@@ -31,6 +31,8 @@ app.layout = dbc.Container([
                     {'label': 'Population', 'value': 'Population'},
                     {'label': 'Growth Rate', 'value': 'Growth Rate'},
                     {'label': 'Median Individual Income', 'value': 'Median Individual Income'},
+                    {'label': 'Signalized Intersections', 'value': 'Signalized Intersections'},
+                    {'label': 'Annual Traffic Spending', 'value': 'Annual Traffic Spending'}
                 ],
                 value='Population'  # default value
             )
@@ -67,7 +69,8 @@ def update_map(selected_value):
                                     size=selected_value,
                                     color=selected_value,
                                     hover_name='City',
-                                    hover_data=['Population', 'Growth Rate', 'Median Individual Income'],
+                                    hover_data=['Population', 'Growth Rate', 'Median Individual Income',
+                                                'Signalized Intersections', 'Annual Traffic Spending'],
                                     title=f'Cities in the Dallas Region by {selected_value.title()}',
                                     mapbox_style="open-street-map",
                                     color_continuous_scale='Rainbow',
@@ -83,6 +86,8 @@ def update_map(selected_value):
                           "Population: %{customdata[0]:,.0f}<br>" +
                           "Growth Rate: %{customdata[1]:.2f}%<br>" +
                           "Median Individual Income: $%{customdata[2]:,.2f}<br>" +
+                          "Signalized Intersections: %{customdata[3]:,.0f}<br>" +
+                          "Annual Traffic Spending: $%{customdata[4]:,.0f}<br>" +
                           "<extra></extra>"
         )
 
@@ -129,7 +134,9 @@ def display_popup(clickData):
         html.H4(city_name),
         html.P(f"Population: {point_data['customdata'][0]:,.0f}"),
         html.P(f"Growth Rate: {point_data['customdata'][1]:.2f}%"),
-        html.P(f"Median Individual Income: ${point_data['customdata'][2]:,.2f}"),
+        html.P(f"Median Individual Income: ${point_data['customdata'][2]:,.0f}"),
+        html.P(f"Signalized Intersections: {point_data['customdata'][3]:,.0f}"),
+        html.P(f"Annual Traffic Spending: ${point_data['customdata'][4]:,.0f}"),
         html.A(f"Visit {city_name} Website", href=f"http://{city_name.lower()}.com", target="_blank")
     ]
 
